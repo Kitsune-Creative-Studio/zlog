@@ -354,7 +354,33 @@ Code -> Child Logger -> Child Logger -> Main Logger -> Async -> Filter -> Handle
 /build.zig.zon                  # Zig package manager file
 /README.md
 /src/
-    main.zig                    # Entry point, CLI dispatcher
+    demo.zig
+    main.zig
+    log_level.zig
+    log_entry.zig
+    /formatters/
+        plain.zig
+        json.zig
+        pretty.zig
+    /sinks/
+        sink.zig         # Sink interface/base
+        console.zig
+        file.zig
+        remote.zig
+    /filters/
+        filter.zig       # Filter interface/base
+        level.zig
+        tag.zig
+        sampling.zig
+    /handlers/
+        handler.zig
+    /context/
+        context.zig
+        trace.zig
+    config.zig
+    redaction.zig
+    error.zig
+    utils.zig
 ```
 
 ### Language
