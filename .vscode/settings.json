@@ -1,0 +1,20 @@
+{
+    "cSpell.words": [
+        "anytype",
+        "comptime",
+        "deinit",
+        "noreturn",
+        "orelse",
+        "usize",
+        "vtables"
+    ],
+    "cSpell.ignoreWords": [
+        "Dinstall",
+        "deflt",
+        "efgh",
+        "ijkl",
+        "mnop",
+        "qrst",
+        "uvwx"
+    ]
+}

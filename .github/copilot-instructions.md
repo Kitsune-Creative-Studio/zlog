@@ -152,7 +152,7 @@ I also want the logger to contain:
             "type": "file",
             "level": "DEBUG",
             "format": "json",
-            "path": "/var/log/myapp.log",
+            "path": "/var/log/my_app.log",
             "rotation": {
                 "size_mb": 100,
                 "time": "1d",
@@ -308,7 +308,42 @@ Code -> Child Logger -> Async filter -> Main Logger -> Async -> Filter -> Handle
 Code -> Child Logger -> Child Logger -> Main Logger -> Async -> Filter -> Handler -> Formatter -> Sink
 ```
 
-TODO: Build file Guidelines
+### Build Guidelines
+
+-   Use Zig's build system (`build.zig`) to expose logger as module for package use
+-   Zig build test should run all tests
+-   Zig build run should run a demo application showcasing logger features
+-   Usage in other projects:
+
+    -   Add as a dependency in `build.zig.zon`
+
+    ```zon
+    .dependencies = .{
+        .zlog = .{
+            .url = "git+https://github.com/Kitsune-Creative-Studio/zlog/?ref=HEAD#58aeeadc5d73273f1cc42f38f90aa2c58e953e8c",
+            .hash = "zlog-0.0.1-zxg_sHGLAADtg1W1nMEF-fiEpd7rSDRGSq1HZwI6eZ6Y",
+        },
+    }
+    ```
+
+    -   Add module in `build.zig`
+
+    ```zig
+    const package = b.dependency("zlog", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const module = package.module("zlog");
+
+    exe.root_module.addImport("zlog", module);
+    ```
+
+    -   Import in your code
+
+    ```zig
+    const zlog = @import("zlog");
+    ```
 
 ### Project Structure
 
@@ -320,7 +355,6 @@ TODO: Build file Guidelines
 /README.md
 /src/
     main.zig                    # Entry point, CLI dispatcher
-/tests/
 ```
 
 ### Language
@@ -369,7 +403,23 @@ const ProductionChain = struct {
 -   **Red-Green-Refactor**: Write failing test → Make it pass → Refactor
 -   **Test structure**: Use Zig's built-in testing framework (`test` blocks)
 
-TODO: Testing Guidelines
+#### Guidelines
+
+-   Unit tests
+    -   Place tests at the bottom of the file, this keeps related code together.
+    -   Use descriptive test names
+-   Integration tests
+    -   Create a separate `tests/` directory for integration tests
+    -   Use realistic data files in `tests/data/` for integration tests
+-   Running tests
+    -   Use `zig test src/*.zig` or vscode extension for running unit tests
+    -   Use `zig build test` for running all tests including integration
+-   Best Practices
+    -   Write tests before implementing features
+    -   Keep tests isolated and independent
+    -   Use setup/teardown functions if needed
+    -   Mock external dependencies where possible
+    -   Aim for high code coverage
 
 ### Naming Conventions
 
